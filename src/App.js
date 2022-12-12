@@ -1,8 +1,9 @@
 import { Component } from 'react';
 import {Amplify,  API, graphqlOperation } from 'aws-amplify';
 import { createNote, deleteNote } from './graphql/mutations';
+import { onCreateGreengrassData } from './graphql/subscriptions';
 import { listNotes } from './graphql/queries';
-
+import React, { useState,useEffect } from 'react';
 import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import awsExports from './aws-exports';
@@ -39,19 +40,47 @@ class AddNote extends Component {
   }
 }
 
-class NotesList extends Component {
-  render() {
+function NotesList(){
+  
+  const [sensorValue, setSensorValue] = useState("0");
+
+
+  //subscribe to changes in sensor values
+  useEffect(() => {
+
+    
+      console.log('start subscription to sensor');
+
+      const subscriber = API.graphql(graphqlOperation(onCreateGreengrassData)).subscribe({
+        next: (response) => {
+
+          //update the sensor's status in state
+          if (response) {
+            console.log(response.value.data);
+            setSensorValue(response.value.data.onCreateGreengrassData.greengrass_data)
+          }
+        },
+        error: (error) => {
+          console.log('error on sensor subscription', error);
+        }
+      }); 
+
+
+  });
+
+
+
     return (
       <div>
-        {this.props.notes.map(note =>
-          <div key={note.id} style={styles.note}>
-            <p>{note.text}</p>
-            <button onClick={() => { this.props.deleteNote(note) }} style={styles.deleteButton}>x</button>
+       
+          <div style={styles.note}>
+            <p>{sensorValue}</p>
+           
           </div>
-        )}
+        
       </div>
     );
-  }
+  
 }
 
 class App extends Component {
@@ -63,10 +92,6 @@ class App extends Component {
     this.state = { notes: [] };
   }
 
-  async componentDidMount() {
-    var result = await API.graphql(graphqlOperation(listNotes));
-    this.setState({ notes: result.data.listNotes.items });
-  }
 
   deleteNote = async (note) => {
     const id = {
