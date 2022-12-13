@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import {Amplify,  API, graphqlOperation } from 'aws-amplify';
-import { createNote, deleteNote } from './graphql/mutations';
+import { createGreengrassData, createNote, deleteGreengrassData, deleteNote } from './graphql/mutations';
 import { onCreateGreengrassData } from './graphql/subscriptions';
 import { listNotes } from './graphql/queries';
 import React, { useState,useEffect } from 'react';
@@ -42,7 +42,7 @@ class AddNote extends Component {
 
 function NotesList(){
   
-  const [sensorValue, setSensorValue] = useState("0");
+  const [sensorValue, setSensorValue] = useState("start subscription to sensor");
 
 
   //subscribe to changes in sensor values
@@ -97,12 +97,12 @@ class App extends Component {
     const id = {
       id: note.id
     };
-    await API.graphql(graphqlOperation(deleteNote, { input: id }));
+    await API.graphql(graphqlOperation(deleteGreengrassData, { input: id }));
     this.setState({ notes: this.state.notes.filter(item => item.id !== note.id) });
   }
 
   addNote = async (note) => {
-    var result = await API.graphql(graphqlOperation(createNote, { input: note }));
+    var result = await API.graphql(graphqlOperation(createGreengrassData, { input: note }));
     this.state.notes.push(result.data.createNote);
     this.setState({ notes: this.state.notes });
   }
@@ -114,9 +114,8 @@ class App extends Component {
   render() {
     return (
       <div style={styles.container}>
-        <h1>Notes App</h1>
-        <AddNote addNote={this.addNote} />
-        <NotesList notes={this.state.notes} deleteNote={this.deleteNote} />
+        <h1>AWS Greengrass App</h1>
+        <NotesList  />
       </div>
     );
   }

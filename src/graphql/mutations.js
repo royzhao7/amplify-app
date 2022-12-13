@@ -1,40 +1,46 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createNote = /* GraphQL */ `
-  mutation CreateNote(
-    $input: CreateNoteInput!
-    $condition: ModelNoteConditionInput
+export const createGreengrassData = /* GraphQL */ `
+  mutation CreateGreengrassData(
+    $input: CreateGreengrassDataInput!
+    $condition: ModelGreengrassDataConditionInput
   ) {
-    createNote(input: $input, condition: $condition) {
+    createGreengrassData(input: $input, condition: $condition) {
+      greengrass_id
+      sample_time
+      greengrass_data
       id
-      text
       createdAt
       updatedAt
     }
   }
 `;
-export const updateNote = /* GraphQL */ `
-  mutation UpdateNote(
-    $input: UpdateNoteInput!
-    $condition: ModelNoteConditionInput
+export const updateGreengrassData = /* GraphQL */ `
+  mutation UpdateGreengrassData(
+    $input: UpdateGreengrassDataInput!
+    $condition: ModelGreengrassDataConditionInput
   ) {
-    updateNote(input: $input, condition: $condition) {
+    updateGreengrassData(input: $input, condition: $condition) {
+      greengrass_id
+      sample_time
+      greengrass_data
       id
-      text
       createdAt
       updatedAt
     }
   }
 `;
-export const deleteNote = /* GraphQL */ `
-  mutation DeleteNote(
-    $input: DeleteNoteInput!
-    $condition: ModelNoteConditionInput
+export const deleteGreengrassData = /* GraphQL */ `
+  mutation DeleteGreengrassData(
+    $input: DeleteGreengrassDataInput!
+    $condition: ModelGreengrassDataConditionInput
   ) {
-    deleteNote(input: $input, condition: $condition) {
+    deleteGreengrassData(input: $input, condition: $condition) {
+      greengrass_id
+      sample_time
+      greengrass_data
       id
-      text
       createdAt
       updatedAt
     }

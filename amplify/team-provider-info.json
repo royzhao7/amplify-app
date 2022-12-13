@@ -11,5 +11,29 @@
       "StackId": "arn:aws:cloudformation:us-east-1:072134149722:stack/amplify-amplifyapp-dev-134855/024f8b10-76bc-11ed-9569-12d4089cefb1",
       "AmplifyAppId": "d3aw3k1nkuzvtg"
     }
+  },
+  "caedge": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-amplifyapp-caedge-133825-authRole",
+      "UnauthRoleArn": "arn:aws:iam::072134149722:role/amplify-amplifyapp-caedge-133825-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::072134149722:role/amplify-amplifyapp-caedge-133825-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-amplifyapp-caedge-133825-deployment",
+      "UnauthRoleName": "amplify-amplifyapp-caedge-133825-unauthRole",
+      "StackName": "amplify-amplifyapp-caedge-133825",
+      "StackId": "arn:aws:cloudformation:us-east-1:072134149722:stack/amplify-amplifyapp-caedge-133825/35810830-79df-11ed-bb82-12f99a790d09",
+      "AmplifyAppId": "dsaf5ogpl5uza"
+    },
+    "categories": {
+      "api": {
+        "amplifyapp": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "dsaf5ogpl5uza",
+          "type": "manual"
+        }
+      }
+    }
   }
 }
