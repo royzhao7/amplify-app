@@ -1,5 +1,12 @@
-import { useState } from "react";
+import { useEffect,useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import {Amplify,  API, graphqlOperation } from 'aws-amplify';
+import { onCreateGreengrassData } from './graphql/subscriptions';
+import awsExports from './aws-exports';
+
+
+Amplify.configure(awsExports);
+
 
 var state = {
     series: [71, 63],
@@ -35,7 +42,7 @@ var state = {
       },
     },
 
-    labels: ['CPU M', 'CPU A'],
+    labels: ['CPU-M', 'CPU-A'],
     legend: {
       show: true,
       position: 'left',
@@ -62,11 +69,47 @@ var state = {
   }
 }
 
-
 function CircleChart() {
     const [chartdata,setchartdata]=useState(state.series);
 
+    useEffect(() => {
+      const timer = setInterval(() => {
+        const randomCpuLoad1 = Math.floor(Math.random() * 100)+1;
+        const randomCpuLoad2 = Math.floor(Math.random() * 100)+1;
 
+        setchartdata([randomCpuLoad1, randomCpuLoad2]);
+      }, 2000);
+      
+      
+      
+      console.log('start subscription to sensor');
+
+      const subscriber = API.graphql(graphqlOperation(onCreateGreengrassData)).subscribe({
+        next: (response) => {
+
+          //update the sensor's status in state
+          if (response) {
+            console.log(response.value.data);
+          //  setSensorValue(response.value.data.onCreateGreengrassData.greengrass_data)
+           var cpuUsage=Math.floor(JSON.parse(response.value.data.onCreateGreengrassData.greengrass_data)[0].V*100);
+           console.log(cpuUsage);
+          }
+        },
+        error: (error) => {
+          console.log('error on sensor subscription', error);
+        }
+      }); 
+
+
+      
+      
+      
+      // clearing interval
+      return () => clearInterval(timer);
+
+
+
+    });
 
     
   return (

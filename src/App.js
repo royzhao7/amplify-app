@@ -58,6 +58,8 @@ function NotesList(){
           if (response) {
             console.log(response.value.data);
             setSensorValue(response.value.data.onCreateGreengrassData.greengrass_data)
+           var cpuUsage=Math.floor(JSON.parse(response.value.data.onCreateGreengrassData.greengrass_data)[0].V*100);
+           console.log(cpuUsage);
           }
         },
         error: (error) => {
@@ -66,7 +68,7 @@ function NotesList(){
       }); 
 
 
-  });
+  },[]);
 
 
 
