@@ -9,7 +9,7 @@ Amplify.configure(awsExports);
 
 
 var state = {
-    series: [71, 63],
+    series: [0,0],
     options:{
     chart: {
       type: 'radialBar',
@@ -73,12 +73,12 @@ function CircleChart() {
     const [chartdata,setchartdata]=useState(state.series);
 
     useEffect(() => {
-      const timer = setInterval(() => {
-        const randomCpuLoad1 = Math.floor(Math.random() * 100)+1;
-        const randomCpuLoad2 = Math.floor(Math.random() * 100)+1;
+      // const timer = setInterval(() => {
+      //   const randomCpuLoad1 = Math.floor(Math.random() * 100)+1;
+      //   const randomCpuLoad2 = Math.floor(Math.random() * 100)+1;
 
-        setchartdata([randomCpuLoad1, randomCpuLoad2]);
-      }, 2000);
+      //   setchartdata([randomCpuLoad1, randomCpuLoad2]);
+      // }, 2000);
       
       
       
@@ -91,8 +91,10 @@ function CircleChart() {
           if (response) {
             console.log(response.value.data);
           //  setSensorValue(response.value.data.onCreateGreengrassData.greengrass_data)
-           var cpuUsage=Math.floor(JSON.parse(response.value.data.onCreateGreengrassData.greengrass_data)[0].V*100);
+           var cpuUsage=Math.round(JSON.parse(response.value.data.onCreateGreengrassData.greengrass_data)[0].V);
            console.log(cpuUsage);
+           const randomCpuLoad2 = Math.floor(Math.random() * 100)+1;
+           setchartdata([randomCpuLoad2,cpuUsage]);
           }
         },
         error: (error) => {
@@ -105,11 +107,11 @@ function CircleChart() {
       
       
       // clearing interval
-      return () => clearInterval(timer);
+      // return () => clearInterval(timer);
 
 
 
-    });
+    },[]);
 
     
   return (
